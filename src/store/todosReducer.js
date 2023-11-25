@@ -13,6 +13,8 @@ export const todosReducer = (state = initialState, action) => {
                 items: [...state.items, action.payload]
             }
         case "REMOVE_TODO":
+            // const found = state.items.findIndex(item => item === action.payload)
+            // if (found === -1) return state
             return {
                 ...state,
                 items: state.items.filter(item => item !== action.payload)
@@ -21,3 +23,8 @@ export const todosReducer = (state = initialState, action) => {
             return state;
     }
 }
+
+export const addTodo = (payload) => ({
+    type: "ADD_TODO",
+    payload
+})
