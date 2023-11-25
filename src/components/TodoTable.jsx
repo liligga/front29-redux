@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { DeleteIcon } from "./UI/icons";
+import { removeTodo } from "../store/todosReducer";
 
 // const todoItems = [
 //   { id: 1, name: "Item 1" },
@@ -12,7 +13,7 @@ const TodoTable = () => {
   const dispatch = useDispatch();
 
   const handleDeleteClick = (id) => {
-    dispatch({type: "REMOVE_TODO", payload: id})
+    dispatch(removeTodo(id));
   };
 
   const handleCheckClick = (id) => {
