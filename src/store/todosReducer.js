@@ -1,3 +1,5 @@
+import axios from "axios"
+
 const initialState = {
     items: [],
     done: []
@@ -19,11 +21,27 @@ export const todosReducer = (state = initialState, action) => {
                 ...state,
                 items: state.items.filter(item => item !== action.payload)
             }
+        case "FETCH_TODOS":
+            return {
+                ...state,
+                items: action.payload
+            }
         default:
             return state;
     }
 }
 
+// Thunk 
+// Middleware - промежуточное ПО
+// dispatch(fetchTodos())
+export const fetchTodos = () => {
+    return async (dispatch) => {
+        const response = await axios.get("https://jsonplaceholder.typicode.com/todos")
+        dispatch({ type: "FETCH_TODOS", payload: response.data })
+    }
+}
+
+// dispatch(addTodo("сходить в магазин"))
 export const addTodo = (payload) => ({
     type: "ADD_TODO",
     payload

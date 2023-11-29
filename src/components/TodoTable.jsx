@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { DeleteIcon } from "./UI/icons";
-import { removeTodo } from "../store/todosReducer";
+import { removeTodo, fetchTodos } from "../store/todosReducer";
+import { useEffect } from "react";
 
 // const todoItems = [
 //   { id: 1, name: "Item 1" },
@@ -11,6 +12,10 @@ import { removeTodo } from "../store/todosReducer";
 const TodoTable = () => {
   const items = useSelector((state) => state.todos.items);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [])
 
   const handleDeleteClick = (id) => {
     dispatch(removeTodo(id));
@@ -25,21 +30,22 @@ const TodoTable = () => {
       <div className="grid grid-cols-1 grid-rows-min gap-2 w-full max-w-lg text-sm text-left text-gray-table-auto border-collapse border-spacing-2 @container">
         {items.map((item) => (
           <div
-            key={item}
+            key={item.id}
             className="hover:bg-slate-200 bg-white rounded-md flex items-center gap-2 p-2 [&>*]:flex [&>*]:items-center"
           >
             <div>
               <input
                 type="checkbox"
                 className="default:ring-2 checked:bg-green invisible @sm:visible"
-                onClick={() => handleCheckClick(item)}
+                onClick={() => handleCheckClick(item.id)}
+                checked={item.completed}
               />
             </div>
-            <div className="flex-grow flex-shrink-0">{item}</div>
+            <div className="flex-grow flex-shrink-0">{item.title}</div>
             <div>
               <button
                 className="text-red-500 px-2 rounded-sm text-base"
-                onClick={() => handleDeleteClick(item)}
+                onClick={() => handleDeleteClick(item.id)}
               >
                 <DeleteIcon />
               </button>
